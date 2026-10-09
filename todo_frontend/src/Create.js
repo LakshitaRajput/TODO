@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import './App.css';
-import axios from 'axios';
+import api from './api';
 
 const Create = () => {
     const [task, setTask] = useState('');
 
     const createTask = () => {
-        axios.post('http://localhost:5000/add', { task: task.trim() })
-            .then(result => {
-                console.log(result.data);
+        api.post('/add', { task: task.trim() })
+            .then(() => {
                 window.location.reload();
                 setTask('');
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error('Failed to create task:', err));
     };
 
     return (

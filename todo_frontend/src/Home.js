@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Create from './Create';
 import './App.css';
-import axios from 'axios';
+import api from './api';
 import { BsCircleFill, BsFillCheckCircleFill, BsFillTrashFill, BsPencil } from 'react-icons/bs';
 
 const Home = () => {
@@ -10,52 +10,48 @@ const Home = () => {
     const [taskid, setTaskid] = useState('');
 
     useEffect(() => {
-        axios.get('http://localhost:5000/get')
+        api.get('/get')
             .then(result => setTodos(result.data))
-            .catch(err => console.log(err));
+            .catch(err => console.error('Failed to fetch tasks:', err));
     }, []);
 
     const edit = (id) => {
-        axios.put(`http://localhost:5000/edit/${id}`)
+        api.put(`/edit/${id}`)
             .then(result => {
-                console.log(result.data);
                 const updatedTodos = todos.map(todo => {
                     if (todo._id === id) {
-                        return { ...todo, done: !todo.done };
+                        return result.data;
                     }
                     return todo;
                 });
                 setTodos(updatedTodos);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error('Failed to mark task complete:', err));
     };
 
     const Update = (id, updatedTask) => {
-        axios.put(`http://localhost:5000/update/${id}`, { task: updatedTask })
+        api.put(`/update/${id}`, { task: updatedTask.trim() })
             .then(result => {
-                console.log(result.data);
                 const updatedTodos = todos.map(todo => {
                     if (todo._id === id) {
-                        return { ...todo, task: updatedTask };
+                        return result.data;
                     }
                     return todo;
                 });
                 setTodos(updatedTodos);
                 setTaskid('');
                 setUpdatetask('');
-                Window.location.reload();
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error('Failed to update task:', err));
     };
 
     const Hdelete = (id) => {
-        axios.delete(`http://localhost:5000/delete/${id}`)
+        api.delete(`/delete/${id}`)
             .then(result => {
-                console.log(result.data);
                 const updatedTodos = todos.filter(todo => todo._id !== id);
                 setTodos(updatedTodos);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error('Failed to delete task:', err));
     };
 
     return (

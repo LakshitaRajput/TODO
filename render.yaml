@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: todo-backend
+    runtime: node
+    rootDir: todo_backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGODB_URI
+        sync: false
+      - key: CLIENT_URL
+        sync: false
