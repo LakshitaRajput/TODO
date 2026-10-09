@@ -8,7 +8,8 @@ Render Blueprint at `render.yaml` and a Vercel configuration at
 
 1. In Render, create a Blueprint instance from this repository and select
    `render.yaml`. Its service uses `todo_backend` as the root directory,
-   `npm install` to build, and `npm start` to run.
+   `npm install` to build, and `npm start` to run on Render's free web-service
+   plan. Do not select or confirm a paid instance plan.
 2. Set `MONGODB_URI` to your MongoDB Atlas connection string, including the
    database name (for example, `TODO`).
 3. Set `CLIENT_URL` to the deployed Vercel site's full origin, such as
